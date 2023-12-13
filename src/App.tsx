@@ -1,42 +1,41 @@
-import React from "react";
 import {
   Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
+  BrowserRouter as Router,
+  Routes,
 } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Home } from "./components/Home";
-import "../src/styles/ge"
+import "../src/styles/general.scss"
+import { Login } from "./components/Login";
 
 interface AppRoute {
   path: string;
-  element: React.ComponentType;
+  element: JSX.Element;
 }
 
 const routes: AppRoute[] = [
   {
     path: "/",
-    element: Home,
+    element: <Home/>,
   },
+  {
+    path: "/login",
+    element: <Login/>,
+  }
 ];
-
-const router = createBrowserRouter(
-  createRoutesFromElements([
-    ...routes.map((route) => (
-      <Route key={route.path} path={route.path} element={<route.element />} />
-    )),
-  ])
-);
-
-console.log("router", router);
 
 function App() {
   return (
-    <div className="container-app">
-      <Header />
-      <RouterProvider router={router}/>
-    </div>
+    <Router>
+      <div className="container-app">
+        <Header />
+        <Routes>
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} element={route.element} />
+          ))}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
